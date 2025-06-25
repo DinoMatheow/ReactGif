@@ -1,30 +1,34 @@
+import { GifItem } from "./GifItem";
+import { useFetchGifs } from "../hooks/useFetchGifs";
+
 export const GifGrid = ({ category }) => {
 
-    const getGifs = async() => {
-        const url = `https://api.giphy.com/v1/gifs/search?api_key=2kMFMOFtd6pmPJBHHbbNKaI5Xctmf6Bx&q=${ category }&limit=10`;
-        const resp = await fetch( url );
-        const { data } = await resp.json();
-        console.log(resp);
 
-        const gifs = data.map( img=> ({
-            id: img.id,
-            title: img.title, 
-            url: img.images.downsized_medium.url
-        }) );
-        console.log(gifs)
-    }
+    const { images, isLoading } = useFetchGifs( category );
 
-    getGifs()
+    // console.log({ images, isLoading })
+
+
 
 
   return (
     <>
-    
-    
         <h3> { category } </h3>
         {
-        
+            isLoading & ( <h2>Cargando...</h2> )
+            // ? ( <h2>Cargando...</h2> ) : null
+
         }
+        {/* <h2>Cargando...</h2> */}
+        <div className="card-grid">
+            {
+                images.map( (image) =>(
+                    <GifItem key={ image.id }
+                    { ...image }
+                    ></GifItem>
+                ))
+            }        
+        </div>
     </>
 
 )
