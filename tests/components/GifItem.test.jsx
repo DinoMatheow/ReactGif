@@ -1,4 +1,3 @@
-/* global describe, test, expect */
 import { render, screen } from "@testing-library/react";
 import { GifItem } from "../../src/components/GifItem";
 
